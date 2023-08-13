@@ -1,0 +1,75 @@
+ 
+<!DOCTYPE html>
+
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+</head>
+
+<body>
+  <div class="login">
+  <div class="container">
+    <div class="tum">
+      <div class="tum-2">
+        <div class="tum-3">
+          <div class="tum-4">
+            <div class="tum-5">
+              <div class="tum-6">
+                <div class="tum-7">
+                  <div class="tum-7-1">
+                    <div class="tum-7-1-1">
+
+                      <img alt="Logo" src="\assets\img\logoLogin.svg">
+                      <h4 class="giris">Giriş Bilgilerinizi Yazınız</h4>
+
+                    </div>
+                    <div class="tum7-2">
+                      <form class="form-1" [formGroup]="DatabaseService.loginForm" (ngSubmit)="HttpRequestService.login(DatabaseService.loginForm)">
+                        <div class="bilgi">
+                            <div *ngIf="DatabaseService.invalidLogin" class="alert alert-danger">Invalid username or password.</div>
+                          <label for="username" class="lbl">
+                            Kullanıcı Adı
+                          </label>
+                          <div class="kullanici-inp">
+                            <input class="kullanici-input" type="text" id="username" formControlName="username"
+                              placeholder="Kullanıcı Adınız" >
+                          </div>
+                          
+                        </div>
+                        <div class="bilgi">
+                          <label for="password" class="lbl">
+                            Şifre
+                          </label>
+                          <div class="kullanici-inp">
+                            <input class="kullanici-input" type="password"id="password" formControlName="password" placeholder="Şifreniz"
+                             required ><br><br>
+                          </div>
+                        </div>
+                        <div class="enter">
+                          <div class="enter-2">
+                            <button type ="submit"  class="buton" >Giris
+                              <i class="fa-solid fa-right-to-bracket"></i></button>
+                            <div class="unut">
+                              <a href="sifre.html">
+                                Şifremi Unuttum
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="kiraz">
+                          kirazsoft &copy; 2020
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</body>

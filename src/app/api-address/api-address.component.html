@@ -1,0 +1,401 @@
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+              <div class="content-wrapper"style="background-color: white;">
+                <section class="content-header">
+                  <div class="container-fluid">
+                    <div class="row mb-2">
+                      <div class="col-sm-6">
+                      </div>
+                      <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                        </ol>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+    <section class="content">
+    <div class="container-fluid">
+    <div class="row">
+    <div class="col-12">
+      <!-- Api Adres Ekle Butonu -->
+      <div class="alert alert-dark" style="width: 100%;">
+        <button type="button" class="btn btn-info"  (click)="ActionService.open(subegoruntulemodal)">
+          Api Adres Ekle
+        </button>
+      </div>
+      <!-- Müşteri Şubesi Görüntüle Modal -->
+      <ng-template   #subegoruntulemodal let-modal>
+       <div class="modal-content" >
+        <div class="modal-header">
+          <div class="alert alert-danger" style="text-align: center;width: 100%;">
+            <b>Müşteri Şube Listesi</b><button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          </div>
+ 
+        </div>
+         <div class="modal-body">
+           <div>
+             <div class="card">
+               <p-table #dt *ngIf="DatabaseService.CustomerBranchListTable" [value]="DatabaseService.CustomerBranchListTable"
+                 styleClass="p-datatable-gridlines" [paginator]="true" [rows]="10"  [globalFilterFields]="['name','address','shortName']"
+                 [showCurrentPageReport]="true" [rowHover]="true"
+                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                 <ng-template pTemplate="caption">
+                  <div  class="flex align-items-center justify-content-between">
+                    <span class="p-input-icon-left">
+                 <i class="pi pi-search"></i>
+                 <input pInputText type="text" (input)="ActionService.applyFilterGlobal($event, 'contains' ,dt)" placeholder="Ara..." />
+                </span>
+                  </div>
+              </ng-template>
+                 <ng-template pTemplate="header" let-columns>
+                   <tr>
+                     <th pSortableColumn="name">Ad<p-sortIcon field="name"></p-sortIcon></th>
+                     <th pSortableColumn="address">Adres<p-sortIcon field="address"></p-sortIcon></th>
+                     <th pSortableColumn="shortName">Kısa Ad<p-sortIcon field="shortName"></p-sortIcon></th>
+                     <th pSortableColumn="createDate">Oluşturma Tarihi<p-sortIcon field="createDate"></p-sortIcon></th>
+                     <th pSortableColumn="branchCloseTime">Şube Kapanma Zamanı<p-sortIcon field="branchCloseTime"></p-sortIcon></th>
+                     <th >İşlem</th>
+  
+                   </tr>
+                 </ng-template>
+                 <ng-template pTemplate="body"  let-cstmbrn  let-columns="columns">
+                   <tr style="text-align:center;">               
+                     <td><span class="p-column-title">Ad</span>{{cstmbrn.name }}</td>
+                     <td><span class="p-column-title">Adres</span>{{cstmbrn.address}}</td>
+                     <td><span class="p-column-title">Kısa Ad</span>{{cstmbrn.shortName}}</td>
+                     <td><span class="p-column-title">Oluşturma Tarihi</span>{{cstmbrn.createDate | date:'dd-MM-yyyy' }}</td>
+                     <td><span class="p-column-title">Şube Kapanma Zamanı</span>{{ActionService.splitDate(cstmbrn)}}</td>
+                     <td>  <span class="p-column-title">İşlem</span>    
+                        <button type="button" class="btn btn-success" (click)="ActionService.resetFormDataApiAddress(cstmbrn.id)" (click)="ActionService.openmd(apiaddresseklemodal)">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                          </svg>
+                      Api Adres Ekle
+                    </button></td>
+                   </tr>
+                 </ng-template>
+               </p-table>
+             </div>
+           </div>
+         </div>
+         <div class="modal-footer">
+           <button type="button" class="btn btn-danger" (click)="modal.close('Close click')" >Kapat</button>
+         </div>
+       </div>
+      </ng-template>
+      <!-- Api Address Ekle Modal -->
+    <ng-template   #apiaddresseklemodal let-modal>
+     <div class="modal-header">
+       <h5 class="modal-title" id="exampleModalLabel">Api Adres Ekle</h5>
+       <button #btnClose type="button" class="close"(click)="modal.dismiss('Cross click')" aria-label="Close">
+         <span aria-hidden="true">&times;</span>
+       </button>
+     </div>
+     <div class="modal-body">
+      <form class="form-horizontal" [formGroup]="DatabaseService.ApiAddressForm">
+        <div>
+          <div class="form-group">
+            <label class="control-label col-sm-12" for="pwd">Müşteri Şube</label>
+            <div class="col-sm-12">
+                <p-dropdown   [options]="DatabaseService.CustomerBranchListTable"  [virtualScroll]="true" optionLabel="name" [filter]="true" [showClear]="true" [disabled]="true"
+                optionValue="id" formControlName="customerBranchId" placeholder="Müşteri Şubesi Seçiniz."  [virtualScrollItemSize]="38"></p-dropdown>
+            </div>
+            <div style="width:250px ; height: 40px; margin-left: 10px; padding-right: 50px;"
+             *ngIf="DatabaseService.ApiAddressForm.controls['customerBranchId'].invalid && (DatabaseService.ApiAddressForm.controls['customerBranchId'].dirty ||
+             DatabaseService.ApiAddressForm.controls['customerBranchId'].touched)">
+             <div class="p-error" style="width: 100px; height: 40px;"
+               *ngIf="DatabaseService.ApiAddressForm.controls['customerBranchId'].errors.required">
+               Müşteri Şube ID Giriniz.
+             </div>
+           </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-12" for="pwd">Adres</label>
+            <div class="col-sm-12">
+              <input type="text" class="form-control" id="txtProductDescription"
+                formControlName="address" placeholder="Adres :">
+            </div>
+            <div style="width:250px ; height: 40px; margin-left: 10px; padding-right: 50px;" *ngIf="DatabaseService.ApiAddressForm.controls['address'].invalid && (DatabaseService.ApiAddressForm.controls['address'].dirty ||
+            DatabaseService.ApiAddressForm.controls['address'].touched)">
+             <div class="p-error" style="width: 100px; height: 40px;"
+               *ngIf="DatabaseService.ApiAddressForm.controls['address'].errors.required">
+               Adres Giriniz.
+             </div>
+           </div>
+          </div>
+          <!-- <div class="form-group">
+            <label class="control-label col-sm-12" for="pwd">Kullanıcı Adı</label>
+            <div class="col-sm-12">
+              <input type="text" class="form-control" id="txtProductName" formControlName="userName"
+                placeholder="Kullanıcı Adı :" required autofocus>
+            </div>
+            <div style="width:250px ; height: 40px; margin-left: 10px; padding-right: 50px;"
+             *ngIf="DatabaseService.ApiAddressForm.controls['userName'].invalid && (DatabaseService.ApiAddressForm.controls['userName'].dirty ||
+             DatabaseService.ApiAddressForm.controls['userName'].touched)">
+             <div class="p-error" style="width: 100px; height: 40px;"
+               *ngIf="DatabaseService.ApiAddressForm.controls['userName'].errors.required">
+              Kullanıcı Adı Giriniz.
+             </div>
+           </div>
+          </div> -->
+          <!-- <div class="form-group">
+            <label class="control-label col-sm-12" for="pwd">Şifre</label>
+            <div class="col-sm-12">
+              <input type="text" class="form-control" id="txtProductCost" formControlName="password"
+                placeholder="Şifre :"  minlength="6">
+            </div>
+            <div style="width:400px ; height: 40px; margin-left: 10px;"
+             *ngIf="DatabaseService.ApiAddressForm.controls['password'].invalid && (DatabaseService.ApiAddressForm.controls['password'].dirty ||
+             DatabaseService.ApiAddressForm.controls['password'].touched)">
+             <div class="p-error" style="width: 400px;"
+               *ngIf="DatabaseService.ApiAddressForm.controls['password'].errors.required">
+               Şifre Giriniz.
+             </div>
+             <div class="p-error" style="width: 400px;"
+             *ngIf="DatabaseService.ApiAddressForm.controls['password'].errors.minlength">
+               Şifreniz 6 haneli olmalıdır.
+           </div>
+           </div>
+          </div> -->
+          <div class="form-group">
+
+            <label class="control-label col-sm-12" for="pwd">Adres Türü</label>
+            <div class="col-sm-12">
+              <select class="form-select" formControlName="addressType"  id="txtProductDescription" aria-label="Default select example">
+                <option value="21">21 (NarPOS Patron Uygulaması)</option>
+                <option value="22">22 (NarPOS Terminal Uygulaması)</option>
+                <option value="23">23 (NarPOS Caller Id)</option>
+              </select>
+            </div>
+            <div style="width:250px ; height: 40px; margin-left: 10px; padding-right: 50px;"
+             *ngIf="DatabaseService.ApiAddressForm.controls['addressType'].invalid && (DatabaseService.ApiAddressForm.controls['addressType'].dirty ||
+             DatabaseService.ApiAddressForm.controls['addressType'].touched)">
+             <div class="p-error" style="width: 100px; height: 40px;"
+               *ngIf="DatabaseService.ApiAddressForm.controls['addressType'].errors.required">
+              Adres Türü Giriniz.
+             </div>
+           </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-12" for="pwd">Port</label>
+            <div class="col-sm-12">
+              <input type="text" class="form-control" id="txtProductName" formControlName="port"
+                placeholder="Port" required autofocus>
+            </div>
+            <div style="width:250px ; height: 40px; margin-left: 10px; padding-right: 50px;"
+             *ngIf="DatabaseService.ApiAddressForm.controls['port'].invalid && (DatabaseService.ApiAddressForm.controls['port'].dirty ||
+             DatabaseService.ApiAddressForm.controls['port'].touched)">
+             <div class="p-error" style="width: 100px; height: 40px;"
+               *ngIf="DatabaseService.ApiAddressForm.controls['port'].errors.required">
+              Kullanıcı Adı Giriniz.
+             </div>
+           </div>
+          </div>
+          <br />
+          <div class="form-group">
+            <div class="container">
+              <div class="row">
+              </div>
+            </div>
+            <br />
+          </div>
+        </div>
+
+      </form>
+      </div>
+     <div class="modal-footer">
+       <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">Kapat</button>
+       <button type="submit" class="btn btn-secondary"   (click)="modal.close('Ekle click')"
+       (click)="ActionService.PostApiAddress(DatabaseService.ApiAddressForm.value)">Ekle</button>
+     </div>
+    </ng-template>
+    <!-- Api Address Güncelle Modal -->
+          <ng-template   #apiaddressguncellemodal let-modal>
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Api Adres Güncelle</h5>
+            <button #btnClose2 type="button" class="close"(click)="modal.dismiss('Cross click')" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+           <form class="form-horizontal" [formGroup]="DatabaseService.ApiAddressForm">
+             <div>
+               <div class="form-group">
+                 <label class="control-label col-sm-12" for="pwd">Müşteri Şube</label>
+                 <div class="col-sm-12"> 
+                  <p-dropdown   [options]="DatabaseService.CustomerBranchListTable"  [virtualScroll]="true" optionLabel="name" [filter]="true"[showClear]="true" [disabled]="true"
+                  optionValue="id" formControlName="customerBranchId" placeholder="Müşteri Şubesi Seçiniz."  [virtualScrollItemSize]="38"></p-dropdown>
+                 </div>
+                 <div style="width:250px ; height: 40px; margin-left: 10px; padding-right: 50px;"
+                  *ngIf="DatabaseService.ApiAddressForm.controls['customerBranchId'].invalid && (DatabaseService.ApiAddressForm.controls['customerBranchId'].dirty ||
+                  DatabaseService.ApiAddressForm.controls['customerBranchId'].touched)">
+                  <div class="p-error" style="width: 100px; height: 40px;"
+                    *ngIf="DatabaseService.ApiAddressForm.controls['customerBranchId'].errors.required">
+                    Müşteri Şube ID Giriniz.
+                  </div>
+                </div>
+               </div>
+               <div class="form-group">
+                 <label class="control-label col-sm-12" for="pwd">Adres</label>
+                 <div class="col-sm-12">
+                   <input type="text" class="form-control" id="txtProductDescription"
+                     formControlName="address" placeholder="Adres :">
+                 </div>
+                 <div style="width:250px ; height: 40px; margin-left: 10px; padding-right: 50px;" *ngIf="DatabaseService.ApiAddressForm.controls['address'].invalid && (DatabaseService.ApiAddressForm.controls['address'].dirty ||
+                 DatabaseService.ApiAddressForm.controls['address'].touched)">
+                  <div class="p-error" style="width: 100px; height: 40px;"
+                    *ngIf="DatabaseService.ApiAddressForm.controls['address'].errors.required">
+                    Adres Giriniz.
+                  </div>
+                </div>
+               </div>
+               <div class="form-group">
+                 <label class="control-label col-sm-12" for="pwd">Kullanıcı Adı</label>
+                 <div class="col-sm-12">
+                   <input type="text" class="form-control" id="txtProductName" formControlName="userName"
+                     placeholder="Ad :" required autofocus>
+                 </div>
+                 <div style="width:250px ; height: 40px; margin-left: 10px; padding-right: 50px;"
+                  *ngIf="DatabaseService.ApiAddressForm.controls['userName'].invalid && (DatabaseService.ApiAddressForm.controls['userName'].dirty ||
+                  DatabaseService.ApiAddressForm.controls['userName'].touched)">
+                  <div class="p-error" style="width: 100px; height: 40px;"
+                    *ngIf="DatabaseService.ApiAddressForm.controls['userName'].errors.required">
+                   Kullanıcı Adı Giriniz.
+                  </div>
+                </div>
+               </div>
+               <div class="form-group">
+                 <label class="control-label col-sm-12" for="pwd">Şifre</label>
+                 <div class="col-sm-12">
+                   <input type="text" class="form-control" id="txtProductCost" formControlName="password"
+                     placeholder="Kısa Ad :" >
+                 </div>
+                 <div style="width:400px ; height: 40px; margin-left: 10px;"
+                  *ngIf="DatabaseService.ApiAddressForm.controls['password'].invalid && (DatabaseService.ApiAddressForm.controls['password'].dirty ||
+                  DatabaseService.ApiAddressForm.controls['password'].touched)">
+                  <div class="p-error" style="width: 400px;"
+                    *ngIf="DatabaseService.ApiAddressForm.controls['password'].errors.required">
+                    Şifre Giriniz.
+                  </div>
+                  <div class="p-error" style="width: 400px;"
+                  *ngIf="DatabaseService.ApiAddressForm.controls['password'].errors.minlength">
+                    Şifreniz 6 haneli olmalıdır.
+                </div>
+                </div>
+               </div>
+               <div class="form-group">
+                 <label class="control-label col-sm-12" for="pwd">Adres Türü</label>
+                 <div class="col-sm-12">
+                     <select class="form-select" formControlName="addressType"  d="txtProductDescription" aria-label="Default select example">
+                      <option value="21">21 (NarPOS Patron Uygulaması)</option>
+                      <option value="22">22 (NarPOS Terminal Uygulaması)</option>
+                      <option value="23">23 (NarPOS Caller Id)</option>
+                    </select>
+                 </div>
+                 <div style="width:250px ; height: 40px; margin-left: 10px; padding-right: 50px;"
+                  *ngIf="DatabaseService.ApiAddressForm.controls['addressType'].invalid && (DatabaseService.ApiAddressForm.controls['addressType'].dirty ||
+                  DatabaseService.ApiAddressForm.controls['addressType'].touched)">
+                  <div class="p-error" style="width: 100px; height: 40px;"
+                    *ngIf="DatabaseService.ApiAddressForm.controls['addressType'].errors.required">
+                   Adres Türü Giriniz.
+                  </div>
+                </div>
+               </div>
+               <br />
+               <div class="form-group">
+                 <div class="container">
+                   <div class="row">
+                   </div>
+                 </div>
+                 <br />
+               </div>
+             </div>
+           </form>
+           </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">Kapat</button>
+            <button type="submit" class="btn btn-secondary" [disabled]="DatabaseService.ApiAddressForm.invalid"   (click)="modal.close('Guncelle click')"
+            (click)="ActionService.UpdateApiAddress(DatabaseService.ApiAddressForm.value)">Güncelle</button>
+          </div>
+          </ng-template>         
+<!--Api Address Listesi -->
+<div class="modal-content">
+  <div class="modal-body">
+    <div>
+          <div class="card" style="background-color: white;">
+            <div class="alert alert-danger" style="text-align: center;"><b>ApiAddress Listesi</b>            
+            </div>
+              <p-table #dt *ngIf="this.DatabaseService.ApiAddressListTable" [value]="this.DatabaseService.ApiAddressListTable" styleClass="p-datatable-gridlines" [paginator]="true"
+                    [rows]="10" [showCurrentPageReport]="true" [rowHover]="true"[globalFilterFields]="['customerBranch.customer.name','customerBranch.name','address','userName','password','addressType','fulfillment']"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                    <ng-template pTemplate="caption">
+                      <div class="flex align-items-center justify-content-between">
+                        <span class="p-input-icon-left">
+                          <i class="pi pi-search"></i>
+                          <input pInputText type="text" (input)="ActionService.applyFilterGlobal($event, 'contains' ,dt   )" placeholder="Ara..." />
+                          </span>
+                      </div>
+                  </ng-template>
+                    <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th pSortableColumn="customerBranch.customer.name">Müşteri Adı<p-sortIcon field="customerBranch.customer.name"></p-sortIcon></th>
+                    <th pSortableColumn="customerBranch.name">Şube Adı<p-sortIcon field="customerBranch.name"></p-sortIcon></th>
+                    <th pSortableColumn="address">Adres<p-sortIcon field="address"></p-sortIcon></th>
+                    <th pSortableColumn="userName">Kullanıcı Adı<p-sortIcon field="userName"></p-sortIcon></th>
+                    <th pSortableColumn="password">Şifre<p-sortIcon field="password"></p-sortIcon></th>
+                    <th pSortableColumn="addressType">Adres Türü<p-sortIcon field="addressType"></p-sortIcon></th>
+                    <th >İşlem</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-api let-columns="columns">
+                  <tr style="text-align:center ;">
+                    <td><span class="p-column-title">Müşteri Adı</span>{{api.customerBranch.customer.name}}</td>
+                    <td><span class="p-column-title">Şube Adı</span>{{api.customerBranch.name}}</td>
+                    <td><span class="p-column-title">Adres</span>{{api.address}}</td>
+                    <td><span class="p-column-title">Kullanıcı Adı</span>{{api.userName}}</td>
+                    <td><span class="p-column-title">Şifre</span>{{api.password}}</td>
+                    <td><span class="p-column-title">Adres Türü</span>{{DatabaseService.map.get(api.addressType)}}</td>
+                    <td><span class="p-column-title">İşlem</span>
+                      <button class="btn btn-primary" mat-button [matMenuTriggerFor]="menu">...</button>
+                            <mat-menu #menu="matMenu">
+                              <button type="button" style="width: 80%;margin-left: 10px;" class="btn btn-warning btn-floating" 
+                              (click)="ActionService.openmd(apiaddressguncellemodal)"
+                        (click)='ActionService.ApiAddressDetailsToEdit(api.id)'>Düzenle</button> <br><br>
+                      
+                      <button [swal]="deleteSwal"  style="width: 80%;margin-left: 10px;" class="btn btn-danger btn-floating"
+          
+                        (confirm)="ActionService.DeleteApiAddress(api.id)">                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-trash" viewBox="0 0 16 16">
+                        <path
+                          d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z">
+                        </path>
+                        <path fill-rule="evenodd"
+                          d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z">
+                        </path>
+                      </svg></button>
+                      <swal #deleteSwal title="Emin misiniz?" text="Silmek istediğiniz veri geri alınamaz."
+                      type="question" [showCancelButton]="true" [focusCancel]="true"
+                      [swalOptions]="{ confirmButtonText: 'Onayla' ,  cancelButtonText:'Kapat'}">
+                    </swal>
+                    <swal #deleted title="Silindi" text="İşleminiz başarıyla gerçekleştirildi" type="success">
+                    </swal>
+                    </mat-menu>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+
+          </div>
+    </div>
+  </div>
+</div>
+    </div>
+    </div>
+    </div>
+    </section>
+ </div>
+
+

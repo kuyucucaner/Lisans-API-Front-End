@@ -1,0 +1,419 @@
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+<div class="content-wrapper" style="background-color: white;">
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <!-- Müşteri Güncelle Modal -->
+              <ng-template   #musteriguncellemodal let-modal>
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Müşteri Güncelle</h5>
+                  <button #btnClose type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form class="form-horizontal" [formGroup]="DatabaseService.CustomersForm">
+                    <div>
+                      <div class="form-group">
+                        <label class="control-label col-sm-12" for="pwd">Ad</label>
+                        <div class="col-sm-12">
+                          <input type="text" class="form-control" id="txtProductName" formControlName="name"
+                            placeholder="Ad :" required autofocus>
+                        </div>
+                        <div style="width:250px ; height: 40px; margin-left: 10px; padding-right: 50px;" *ngIf="DatabaseService.CustomersForm.controls['name'].invalid && (DatabaseService.CustomersForm.controls['name'].dirty ||
+                        DatabaseService.CustomersForm.controls['name'].touched)">
+                          <div class="p-error" style="width: 100px; height: 40px;"
+                            *ngIf="DatabaseService.CustomersForm.controls['name'].errors.required">
+                            Ad Giriniz.
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-sm-12" for="pwd">Kısa Ad</label>
+                        <div class="col-sm-12">
+                          <input type="text" class="form-control" id="txtProductDescription" formControlName="shortName"
+                            placeholder="Soyad :">
+                        </div>
+                        <div style="width:250px ; height: 40px; margin-left: 10px; padding-right: 50px;" *ngIf="DatabaseService.CustomersForm.controls['shortName'].invalid && (DatabaseService.CustomersForm.controls['shortName'].dirty ||
+                        DatabaseService.CustomersForm.controls['shortName'].touched)">
+                          <div class="p-error" style="width: 100px; height: 40px;"
+                            *ngIf="DatabaseService.CustomersForm.controls['shortName'].errors.required">
+                            Soyad Giriniz.
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-sm-12" for="pwd">Takma Ad</label>
+                        <div class="col-sm-12">
+                          <input type="text" class="form-control" id="txtProductCost" formControlName="alias"
+                            placeholder="Kullanıcı Adı :">
+                        </div>
+                        <div style="width:400px ; height: 40px; margin-left: 10px;" *ngIf="DatabaseService.CustomersForm.controls['alias'].invalid && (DatabaseService.CustomersForm.controls['alias'].dirty ||
+                        DatabaseService.CustomersForm.controls['alias'].touched)">
+                          <div class="p-error" style="width: 400px;"
+                            *ngIf="DatabaseService.CustomersForm.controls['alias'].errors.required">
+                            Takma Ad Giriniz.
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-sm-12" for="pwd">Adres</label>
+                        <div class="col-sm-12">
+                          <input type="text" class="form-control" id="txtStock" formControlName="address"
+                            placeholder="Adres :">
+                        </div>
+                        <div style="width:400px ; height: 40px; margin-left: 10px;" *ngIf="DatabaseService.CustomersForm.controls['address'].invalid && (DatabaseService.CustomersForm.controls['address'].dirty ||
+                        DatabaseService.CustomersForm.controls['address'].touched)">
+                          <div class="p-error" style="width: 400px;"
+                            *ngIf="DatabaseService.CustomersForm.controls['address'].errors.required">
+                            Adres Giriniz.
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-sm-12" for="pwd">Vergi Numarası</label>
+                        <div class="col-sm-12">
+                          <input type="text" class="form-control" id="txtStock" formControlName="taxNumber"
+                            placeholder="Vergi Numarası :">
+                        </div>
+                        <div style="width:400px ; height: 40px; margin-left: 10px;" *ngIf="DatabaseService.CustomersForm.controls['taxNumber'].invalid && (DatabaseService.CustomersForm.controls['taxNumber'].dirty ||
+                        DatabaseService.CustomersForm.controls['taxNumber'].touched)">
+                          <div class="p-error" style="width: 400px;"
+                            *ngIf="DatabaseService.CustomersForm.controls['taxNumber'].errors.required">
+                            Vergi Numarası Giriniz.
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-sm-12" for="pwd">Vergi Dairesi</label>
+                        <div class="col-sm-12">
+                          <input type="text" class="form-control" id="txtStock" formControlName="taxOffice"
+                            placeholder="Vergi Dairesi :">
+                        </div>
+                        <div style="width:400px ; height: 40px; margin-left: 10px;" *ngIf="DatabaseService.CustomersForm.controls['taxOffice'].invalid && (DatabaseService.CustomersForm.controls['taxOffice'].dirty ||
+                        DatabaseService.CustomersForm.controls['taxOffice'].touched)">
+                          <div class="p-error" style="width: 400px;"
+                            *ngIf="DatabaseService.CustomersForm.controls['taxOffice'].errors.required">
+                            Vergi Dairesi Giriniz.
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-sm-12" for="pwd">Oluşturma Tarihi</label>
+                        <div class="col-sm-5">
+                          <input type="date" min="2022-01-01" max="2031-12-31" [attr.disabled]="true"
+                            class="form-control" id="txtStock" formControlName="createDate">
+                        </div>
+                        <div style="width:400px ; height: 40px; margin-left: 10px;" *ngIf="DatabaseService.CustomersForm.controls['createDate'].invalid && (DatabaseService.CustomersForm.controls['createDate'].dirty ||
+                        DatabaseService.CustomersForm.controls['createDate'].touched)">
+                          <div class="p-error" style="width: 400px;"
+                            *ngIf="DatabaseService.CustomersForm.controls['createDate'].errors.required">
+                            Bir tarih seçiniz.
+                          </div>
+                        </div>
+                      </div>
+                      <br />
+                      <div class="form-group">
+                        <div class="container">
+                          <div class="row">
+                          </div>
+                        </div>
+                        <br />
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">Kapat</button>
+                  <button type="submit" class="btn btn-secondary" [disabled]="DatabaseService.CustomersForm.invalid" (click)="modal.close('Guncelle click')"
+                    (click)="ActionService.UpdateCustomers(DatabaseService.CustomersForm.value)">Güncelle</button>
+                </div>
+              </div>
+            </ng-template>
+         
+              <!-- Müşteri Şubesi Görüntüle Modal -->
+              <ng-template  #musterisubegoruntulemodal let-modal>
+              <div class="modal-content">
+                <div class="modal-header">
+                    <div class="alert alert-danger" style="text-align: center;width: 100%;">
+                      <b>Müşteri Şube Listesi</b><button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>           
+                  </div>
+                <div class="modal-body">
+                  <div>
+                    <div class="card" style="background-color: white;">
+                      <p-table #dt *ngIf="DatabaseService.CustomerBranchListTableFilter" [value]="DatabaseService.CustomerBranchListTableFilter"
+                        styleClass="p-datatable-gridlines" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+                        [rowHover]="true"
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                      
+                        <ng-template pTemplate="header" let-columns>                      
+                          <tr> 
+
+                            <th pSortableColumn="name">Ad<p-sortIcon field="name"></p-sortIcon></th>
+                            <th pSortableColumn="address">Adres<p-sortIcon field="address"></p-sortIcon></th>
+                            <th pSortableColumn="shortName">Kısa Ad<p-sortIcon field="shortName"></p-sortIcon></th>
+                            <th pSortableColumn="createDate">Oluşturma Tarihi<p-sortIcon field="createDate"></p-sortIcon></th>
+                            <th pSortableColumn="branchCloseTime">Şube Kapanma Zamanı<p-sortIcon field="branchCloseTime"></p-sortIcon></th>
+                            <th >İşlem</th>
+                          </tr>
+                        </ng-template>
+
+                        <ng-template pTemplate="body" let-cstmbrn let-columns="columns">
+                          <tr style="text-align:center ;">
+
+                            <td><span class="p-column-title">Ad</span>{{cstmbrn.name}}</td>
+                            <td><span class="p-column-title">Adres</span>{{cstmbrn.address}}</td>
+                            <td><span class="p-column-title">Kısa Ad</span>{{cstmbrn.shortName}}</td>
+                            <td><span class="p-column-title">Oluşturma Tarihi</span>{{cstmbrn.createDate | date:'dd-MM-yyyy' }}</td>
+                            <td><span class="p-column-title">Şube Kapanma Zamanı</span>{{ActionService.splitDate(cstmbrn)}}</td>
+                            <td><span class="p-column-title">İşlem</span>
+                              <button style="margin-left: auto;" type="button" class="btn btn-info" (click)="ActionService.open(cihazgoruntulemodal)" 
+                              (click)="ActionService.getDeviceList2(cstmbrn.id)">
+                                Cihaz Görüntüle
+                              </button>
+                            </td>
+                          </tr>
+                        </ng-template>
+                      </p-table>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">Kapat</button>
+                </div>
+              </div>
+              </ng-template> 
+              <!-- Cihaz Görüntüle Modal -->
+              <ng-template  #cihazgoruntulemodal let-modal>
+              <div class="modal-content">
+                <div class="modal-header">
+
+                <div class="alert alert-danger" style="text-align: center;width: 100%;">
+                  <b>Cihaz Listesi</b><button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                </div>           
+              </div>
+                <div class="modal-body">
+                  <div>
+                    <div class="card">
+
+                      <p-table #dt *ngIf="DatabaseService.DeviceListTableFilter" [value]="DatabaseService.DeviceListTableFilter" styleClass="p-datatable-gridlines"
+                        [paginator]="true" [rows]="10" [showCurrentPageReport]="true" [rowHover]="true"
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                        <ng-template pTemplate="header" let-columns>
+
+                          <tr>
+
+                            <th pSortableColumn="name">Ad<p-sortIcon field="name"></p-sortIcon></th>
+                            <th pSortableColumn="model">Model<p-sortIcon field="model"></p-sortIcon></th>
+                            <th pSortableColumn="platform">Platform<p-sortIcon field="platform"></p-sortIcon></th>
+                            <th pSortableColumn="uuid">UUID<p-sortIcon field="uuid"></p-sortIcon></th>
+                            <th pSortableColumn="version">Versiyon<p-sortIcon field="version"></p-sortIcon></th>
+                            <th pSortableColumn="manufacturer">Üretici Firma<p-sortIcon field="manufacturer"></p-sortIcon></th>
+                            <th pSortableColumn="createDate">Oluşturma Tarihi<p-sortIcon field="createDate"></p-sortIcon></th>
+                            <th scope="col">İşlem</th>
+                          </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-cstmr let-columns="columns">
+
+                          <tr style="text-align:center ;">
+
+                            <td><span class="p-column-title">Ad</span>{{cstmr.name}}</td>
+                            <td><span class="p-column-title">Model</span>{{cstmr.model}}</td>
+                            <td><span class="p-column-title">Platform</span>{{cstmr.platform}}</td>
+                            <td><span class="p-column-title">UUID</span>{{cstmr.uuid}}</td>
+                            <td><span class="p-column-title">Versiyon</span>{{cstmr.version}}</td>
+                            <td><span class="p-column-title">Üretici Firma</span>{{cstmr.manufacturer}}</td>
+                            <td><span class="p-column-title">Oluşturma Tarihi</span>{{cstmr.createDate| date:'dd-MM-yyyy'}}</td>
+                            <td> <span class="p-column-title">İşlem</span>
+                              <button style="margin-left:auto" type="button" class="btn btn-info" (click)="ActionService.open(lisansgoruntulemodal)"
+                               (click)="ActionService.getDeviceLicenceList2(cstmr.id)">
+                                Lisans Görüntüle
+                              </button>
+                            </td>
+                          </tr>
+                        </ng-template>
+
+
+                      </p-table>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">Kapat</button>
+                </div>
+              </div>
+            </ng-template>
+              <!-- Lisans Görüntüle Modal -->
+              <ng-template  #lisansgoruntulemodal let-modal>
+              <div class="modal-content">
+                <div class="modal-header">
+                  <div class="alert alert-danger" style="text-align: center;width: 100%;">
+                    <b>Cihaz Lisans Listesi</b><button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                  </div>           
+                </div>
+                <div class="modal-body">
+                  <div>
+                    <div class="card" style="background-color: white;">
+                      <p-table #dt *ngIf="DatabaseService.DeviceLicenceTableFilter " [value]="DatabaseService.DeviceLicenceTableFilter"
+                        styleClass="p-datatable-gridlines" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+                        [rowHover]="true"
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                        <ng-template pTemplate="header" let-columns>
+                          <tr>
+                            <th pSortableColumn="licenceStatus">Lisans Durumu<p-sortIcon field="licenceStatus">
+                              </p-sortIcon>
+                            </th>
+                            <th pSortableColumn="appType">Uygulama Türü<p-sortIcon field="appType"></p-sortIcon></th>
+                            <th pSortableColumn="createDate">Oluşturma Tarihi<p-sortIcon field="createDate"></p-sortIcon></th>
+                            <th pSortableColumn="confirmedDate">Onaylanma Tarihi<p-sortIcon field="confirmedDate"></p-sortIcon></th>
+                            <th pSortableColumn="modifiedDate">Değiştirilme Tarihi<p-sortIcon field="modifiedDate"></p-sortIcon></th>
+                            <!-- <th scope="col">Değiştirilmiş Kullanıcı ID</th>
+                            <th scope="col">Onaylanmış Kullanıcı ID</th>
+                            <th scope="col">Talep Eden Kullanıcı ID</th> -->
+                            <th pSortableColumn="expireDate">Son Kullanma Tarihi<p-sortIcon field="expireDate"></p-sortIcon></th>
+                            <th scope="col">İşlem</th>
+
+
+                          </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-cstmr let-columns="columns">
+                          <tr style="text-align:center ;">
+                            <td><span class="p-column-title">Lisans Durumu</span>{{DatabaseService.map2.get(cstmr.licenceStatus)}}</td>
+                            <td><span class="p-column-title">Uygulama Türü</span>{{DatabaseService.map3.get(cstmr.appType)}}</td>
+                            <td><span class="p-column-title">Oluşturma Tarihi</span>{{cstmr.createDate| date:'dd-MM-yyyy'}}</td>
+                            <td><span class="p-column-title">Onaylanma Tarihi</span>{{cstmr.confirmedDate| date:'dd-MM-yyyy'}}</td>
+                            <td><span class="p-column-title">Değiştirilme Tarihi</span>{{cstmr.modifiedDate| date:'dd-MM-yyyy'}}</td>
+                            <!-- <td><span class="p-column-title">Değiştirilmiş Kullanıcı ID</span>{{cstmr.modifiedUserId}}</td>
+                            <td><span class="p-column-title">Onaylanmış Kullanıcı ID </span>{{cstmr.confirmedUserId}}</td>
+                            <td><span class="p-column-title">Talep Eden Kullanıcı ID</span>{{cstmr.demanderUserId}}</td> -->
+                            <td><span class="p-column-title">Son Kullanma Tarihi</span>{{cstmr.expireDate| date:'dd-MM-yyyy'}}</td>
+                            <td><span class="p-column-title">İşlem</span>
+                              <button [swal]="deleteSwal"  *ngIf="cstmr.licenceStatus == 2"  style="margin-left: auto;" class="btn btn-danger btn-floating"
+                              (confirm)="ActionService.UnActiveDeviceLicence(cstmr.id)" >Lisansı İptal Et
+                            </button>
+                               <mat-slide-toggle style="margin-left: auto;"[swal]="deleteSwal" *ngIf="cstmr.licenceStatus == 1"  style="margin-left: auto;" (confirm)="ActionService.ActiveDeviceLicence3(cstmr.id)" color="warn"></mat-slide-toggle>
+                              <swal #deleteSwal title="Emin misiniz?" text="Onayı iptal etmek ister misiniz?."
+                              type="question" [showCancelButton]="true" [focusCancel]="true"
+                              [swalOptions]="{ confirmButtonText: 'Onayla' ,  cancelButtonText:'Kapat'}">
+                            </swal>
+                            <swal #deleted title="İptal Edildi" text="İşleminiz başarıyla gerçekleştirildi" type="success">
+                            </swal>
+                       
+                            </td>
+
+                          </tr>
+                        </ng-template>
+                      </p-table>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">Kapat</button>
+                </div>
+              </div>
+              </ng-template>
+          <!--Müşteri Listesi-->
+          <div class="modal-content">
+            <div class="modal-body">
+          <div class="card" >
+            <div class="alert alert-danger" style="text-align: center; "><b>Müşteri Listesi</b></div>
+            <p-table #dt *ngIf="DatabaseService.CustomersListTable" [value]="DatabaseService.CustomersListTable " styleClass="p-datatable-gridlines"
+            [globalFilterFields]="['name','shortName','alias','address','taxNumber','taxOffice']"
+              [paginator]="true" [rows]="10" [showCurrentPageReport]="true" [rowHover]="true"
+              currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+              <ng-template pTemplate="caption">
+                <div class="flex align-items-center justify-content-between">
+                     <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="ActionService.applyFilterGlobal($event, 'contains' ,dt)" placeholder="Ara..." />
+                   </span>
+                </div>
+            </ng-template>
+              <ng-template pTemplate="header" let-columns>
+                <tr>
+
+                  <th pSortableColumn="name">Ad<p-sortIcon field="name"></p-sortIcon></th>
+                  <th pSortableColumn="shortName">Kısa Ad<p-sortIcon field="shortName"></p-sortIcon></th>
+                  <th pSortableColumn="alias">Takma Ad<p-sortIcon field="alias"></p-sortIcon></th>
+                  <th pSortableColumn="address">Adres<p-sortIcon field="address"></p-sortIcon></th>
+                  <th pSortableColumn="taxNumber">Vergi Numarası<p-sortIcon field="taxNumber"></p-sortIcon></th>
+                  <th pSortableColumn="taxOffice">Vergi Dairesi<p-sortIcon field="taxOffice"></p-sortIcon></th>
+                  <th pSortableColumn="createDate">Oluşturma Tarihi<p-sortIcon field="createDate"></p-sortIcon></th>
+                  <th scope="col">İşlem</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-cstmr let-columns="columns">
+                <tr style="text-align:center ;">
+                  <td><span class="p-column-title">Ad</span>{{cstmr.name}}</td>
+                  <td><span class="p-column-title">Kısa Ad</span>{{cstmr.shortName}}</td>
+                  <td><span class="p-column-title">Takma Ad</span>{{cstmr.alias}}</td>
+                  <td><span class="p-column-title">Adres</span>{{cstmr.address}}</td>
+                  <td><span class="p-column-title">Vergi Numarası</span>{{cstmr.taxNumber}}</td>
+                  <td><span class="p-column-title">Vergi Dairesi</span>{{cstmr.taxOffice}}</td>
+                  <td><span class="p-column-title">Oluşturma Tarihi</span>{{cstmr.createDate | date:'dd-MM-yyyy'}}</td>
+                  <td><span class="p-column-title">İşlem</span>
+                    <button class="btn btn-primary" mat-button [matMenuTriggerFor]="menu">...</button>
+                    <mat-menu #menu="matMenu">
+                      <button style="width: 80%;margin-left: 23px;" type="button" class="btn btn-warning btn-floating"
+                      (click)="ActionService.openmd(musteriguncellemodal)" (click)='ActionService.CustomersDetailsToEdit(cstmr.id)'>
+                        Düzenle</button> <br><br>
+                      <button [swal]="deleteSwal" style="width: 80%;margin-left: 23px;"
+                        class="btn btn-danger btn-floating" (confirm)="ActionService.DeleteCustomers(cstmr.id)"> <svg
+                          xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                          class="bi bi-trash" viewBox="0 0 16 16">
+                          <path
+                            d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z">
+                          </path>
+                          <path fill-rule="evenodd"
+                            d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z">
+                          </path>
+                        </svg></button><br>
+                      <br>
+                      <button style="width: 80%;margin-left: 23px;" type="button" class="btn btn-info"
+                      (click)="ActionService.open(musterisubegoruntulemodal)" (click)="ActionService.getCustomerBranchList2(cstmr.id)">
+                        Müşteri Şubesini Görüntüle
+                      </button>
+                      <swal #deleteSwal title="Emin misiniz?" text="Silmek istediğiniz veri geri alınamaz."
+                        type="question" [showCancelButton]="true" [focusCancel]="true"
+                        [swalOptions]="{ confirmButtonText: 'Onayla'  ,  cancelButtonText:'Kapat'}">
+                      </swal>
+                      <swal #deleted title="Silindi" text="İşleminiz başarıyla gerçekleştirildi" type="success">
+                      </swal>
+                    </mat-menu>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+          </div>
+          </div>
+          
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</div>

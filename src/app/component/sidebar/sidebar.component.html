@@ -1,0 +1,84 @@
+          
+              <aside class="main-sidebar sidebar-dark-primary elevation-4">
+                <a routerLink="/home" class="brand-link">
+                   <!-- <img src="assets/img/images.png
+                  " alt="KirazLogo" class="logo" style="height: 50px; width: 200px; text-align:center;"
+                    >  -->
+                  <p style="padding-left:30%;">LOGO</p>
+                </a>
+                <div class="sidebar">
+                  <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                      <br><br><br>
+                      <li *ngIf="roleId == 1" class="nav-item">
+                        <a  routerLink="/useradd" class="nav-link" >
+                          <i class="nav-icon fas fa-ellipsis-h"></i>
+                          <p>
+                            Hayvan Sahiplendirme
+                          </p>
+                        </a>
+                      </li>
+                      <li *ngIf="roleId == 1" class="nav-item">
+                        <a  routerLink="/users" class="nav-link" >
+                          <i class="nav-icon fas fa-ellipsis-h"></i>
+                          <p>
+                            Hayvan Satın Alma
+                          </p>
+                        </a>
+                      </li>
+                      <li  *ngIf="roleId == 1" class="nav-item">
+                        <a routerLink="/apiaddress" class="nav-link" >
+                          <i class="nav-icon fas fa-ellipsis-h"></i>
+                          <p>
+                            Hayvan Mamaları
+                          </p>
+                        </a>
+                      </li>
+                 
+                      <li  *ngIf="roleId == 1" class="nav-item">
+                        <a routerLink="/customers" class="nav-link">
+                          <i class="nav-icon fas fa-ellipsis-h"></i>
+                          <p>
+                            Hayvan Eşyaları
+                          </p>
+                        </a>
+                      </li>
+                      <li *ngIf="roleId == 1"  class="nav-item">
+                        <a routerLink="/customerbranch" class="nav-link">
+                          <i class="nav-icon fas fa-ellipsis-h"></i>
+                          <p>
+                            Veteriner Hizmeti
+                          </p>
+                        </a>
+                      </li>
+                      <li *ngIf="roleId == 1" class="nav-item">
+                        <a routerLink="/device" class="nav-link">
+                          <i class="nav-icon fas fa-ellipsis-h"></i>
+                          <p>
+                            Bağış
+                          </p>
+                        </a>
+                      </li>
+                     
+                      <li *ngIf="roleId == 1" class="nav-item">
+                        <a routerLink="/devicelicence" class="nav-link">
+                          <i class="nav-icon fas fa-ellipsis-h"></i>
+                          <p>
+                            Barınaklar
+                          </p>
+                        </a>
+                      </li>
+               
+                      <li  class="nav-item">
+                        <a routerLink="/devicelicencestatus" class="nav-link">
+                          <i class="nav-icon fas fa-ellipsis-h"></i>
+                          <p>
+                            Hakkımızda
+                          </p>
+                        </a>
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
+              </aside>
+

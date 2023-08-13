@@ -1,0 +1,100 @@
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+              <div class="content-wrapper" style="background-color: white;">
+                <section class="content-header">
+                  <div class="container-fluid">
+                    <div class="row mb-2">
+                      <div class="col-sm-6">
+                      </div>
+                      <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                        </ol>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+    <section class="content">
+    <div class="container-fluid">
+    <div class="row">
+    <div class="col-12">
+        <!--Cihaz Listesi-->
+        <div class="modal-content">
+          <div class="modal-body">
+        <div>
+          <div class ="card" style="background-color: white;">
+            <div class="alert alert-danger" style="text-align: center; "><b>Cihaz Listesi</b></div>
+
+            <p-table #dt *ngIf="DatabaseService.DeviceListTata" [value]="DatabaseService.DeviceListTata" styleClass="p-datatable-gridlines" [paginator]="true"
+            [globalFilterFields]="['customerBranch.customer.name','customerBranch.name','name','model','platform','uuid','version','manufacturer']"
+            [rows]="10" [showCurrentPageReport]="true" [rowHover]="true"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">  
+            <ng-template pTemplate="caption">
+              <div class="flex align-items-center justify-content-between">
+                <span class="p-input-icon-left">
+                  <i class="pi pi-search"></i>
+                  <input pInputText type="text" (input)="ActionService.applyFilterGlobal($event, 'contains' ,dt)" placeholder="Ara..." />
+                 </span>
+              </div>
+          </ng-template>    
+            <ng-template pTemplate="header" let-columns>
+
+                  <tr>
+                    <!-- <th scope="col">Ad</th> -->
+                    <th pSortableColumn="customerBranch.customer.name">Müşteri Adı<p-sortIcon field="customerBranch.customer.name"></p-sortIcon></th>
+                    <th pSortableColumn="customerBranch.name">Şube Adı<p-sortIcon field="customerBranch.name"></p-sortIcon></th>
+                    <th pSortableColumn="model">Model<p-sortIcon field="model"></p-sortIcon></th>
+                    <th pSortableColumn="platform">Platform<p-sortIcon field="platform"></p-sortIcon></th>
+                    <th pSortableColumn="uuid">UUID<p-sortIcon field="uuid"></p-sortIcon></th>
+                    <th pSortableColumn="version">Versiyon<p-sortIcon field="version"></p-sortIcon></th>
+                    <th pSortableColumn="manufacturer">Üretici Firma<p-sortIcon field="manufacturer"></p-sortIcon></th>
+                    <th pSortableColumn="createDate">Oluşturma Tarihi<p-sortIcon field="createDate"></p-sortIcon></th>
+                    <th scope="col">İşlem</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-cstmr let-columns="columns">
+
+                  <tr style="text-align:center ;">
+                    <!-- <td><span class="p-column-title">Ad</span>{{cstmr.name}}</td> -->
+                    <td><span class="p-column-title">Şube Adı</span>{{cstmr.customerBranch.customer.name}}</td>
+                    <td><span class="p-column-title">Müşteri Adı</span>{{cstmr.customerBranch.name}}</td>
+                    <td><span class="p-column-title">Model</span>{{cstmr.model}}</td>
+                    <td><span class="p-column-title">Platform</span>{{cstmr.platform}}</td>
+                    <td><span class="p-column-title">UUID</span>{{cstmr.uuid}}</td>
+                    <td><span class="p-column-title">Versiyon</span>{{cstmr.version}}</td>
+                    <td><span class="p-column-title">Üretici Firma</span>{{cstmr.manufacturer}}</td>
+                    <td><span class="p-column-title">Oluşturma Tarihi</span>{{cstmr.createDate| date:'dd-MM-yyyy'}}</td>
+                    <td><span class="p-column-title">İşlem</span>  
+                             <button [swal]="deleteSwal" style="margin-left:auto ;"  class="btn btn-danger btn-floating" 
+                      (confirm)="ActionService.DeleteDevice(cstmr.id)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                      class="bi bi-trash" viewBox="0 0 16 16">
+                      <path
+                        d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z">
+                      </path>
+                      <path fill-rule="evenodd"
+                        d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z">
+                      </path>
+                    </svg></button>
+                    <swal #deleteSwal title="Emin misiniz?" text="Silmek istediğiniz veri geri alınamaz."
+                    type="question" [showCancelButton]="true" [focusCancel]="true"
+                    [swalOptions]="{ confirmButtonText: 'Onayla'  ,  cancelButtonText:'Kapat'}">
+                  </swal>
+                  <swal #deleted title="Silindi" text="İşleminiz başarıyla gerçekleştirildi" type="success">
+                  </swal>
+                    </td>
+                  </tr>
+                </ng-template>
+
+
+              </p-table>
+            </div>
+          </div>
+          </div>
+        </div>
+        </div>
+
+  </div>
+    </div>
+    
+    </section>
+    
+    </div>

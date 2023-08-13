@@ -1,0 +1,11 @@
+::ng-deep ngb-modal-backdrop {
+    z-index: 1050 !important;
+  }
+  .sidebar {
+    height:100%;/*Tam yükseklik: 'otomatik' yükseklik istiyorsanız bunu kaldırın*/
+    position: fixed; /* Sabit Kenar Çubuğu (kaydırmada, yerinde kal) */
+
+   }
+   h5{
+    font-size: 30px;
+}

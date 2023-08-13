@@ -1,0 +1,277 @@
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+<div class="content-wrapper" style="background-color: white;">
+    <section class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+            </div>
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+              </ol>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12">
+                <!-- <div class="alert alert-dark">
+                    <button type="button"  class="btn btn-success" (click)="ActionService.resetFormDataSystemUser()"
+                     (click)="ActionService.openmd(systemusereklemodal)">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="20" fill="currentColor"
+                        class="bi bi-person-plus-fill" viewBox="0 0 16 16">
+                        <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+                        <path fill-rule="evenodd"
+                          d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z">
+                        </path>
+                      </svg>
+                      Sistem Kullanıcı Ekle
+                    </button>
+                  </div> -->
+                  <!-- SystemUser Ekle -->
+                  <ng-template   #systemusereklemodal let-modal>
+
+                    <div class="modal-header" >
+                      <h5 class="modal-title"  id="modal-basic-title">Sistem Kullanıcısı Ekle</h5>
+                      <button   type="button" class="close" (click)="modal.dismiss('Cross click')"   aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body ">
+                      <form class="form-horizontal" [formGroup]="DatabaseService.SystemUsersForm">
+                        <div class="form-group">
+
+                            <label class="control-label col-sm-12" for="pwd">Rol</label>
+                            <div class="col-sm-12">
+                              <select class="form-select" formControlName="roleId"  id="txtProductDescription" aria-label="Default select example">
+                                <option value="1">Admin</option>
+                                <option value="2">Kullanıcı</option>
+                              </select>
+                            </div>
+                            <div style="width:250px ; height: 40px; margin-left: 10px; padding-right: 50px;"
+                             *ngIf="DatabaseService.SystemUsersForm.controls['roleId'].invalid && (DatabaseService.SystemUsersForm.controls['roleId'].dirty ||
+                             DatabaseService.SystemUsersForm.controls['roleId'].touched)">
+                             <div class="p-error" style="width: 100px; height: 40px;"
+                               *ngIf="DatabaseService.SystemUsersForm.controls['roleId'].errors.required">
+                              Kullanıcı Rolu Seçiniz.
+                             </div>
+                           </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="control-label col-sm-12" for="pwd">Kullanıcı Adı</label>
+                            <div class="col-sm-12">
+                              <input type="text" class="form-control" id="txtProductCost" formControlName="userName"
+                                placeholder="Kullanıcı Adı :">
+                            </div>
+                            <div style="width:400px ; height: 40px; margin-left: 10px;" *ngIf="DatabaseService.SystemUsersForm.controls['userName'].invalid && (DatabaseService.SystemUsersForm.controls['userName'].dirty ||
+                            DatabaseService.SystemUsersForm.controls['userName'].touched)">
+                              <div class="p-error" style="width: 400px;"
+                                *ngIf="DatabaseService.SystemUsersForm.controls['userName'].errors.required">
+                                Kullanıcı Adı Giriniz.
+                              </div>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="control-label col-sm-12" for="pwd">Şifre</label>
+                            <div class="col-sm-12">
+                              <input type="text" class="form-control" id="txtStock" formControlName="password"
+                                placeholder="Şifre :" minlength="4" >
+                            </div>
+                            <div style="width:400px ; height: 40px; margin-left: 10px;" *ngIf="DatabaseService.SystemUsersForm.controls['password'].invalid && (DatabaseService.SystemUsersForm.controls['password'].dirty ||
+                            DatabaseService.SystemUsersForm.controls['password'].touched)" >
+                              <div class="p-error" style="width: 400px;"
+                                *ngIf="DatabaseService.SystemUsersForm.controls['password'].errors.required">
+                                Şifre Giriniz.
+                              </div>
+                              <div class="p-error" style="width: 400px;"
+                              *ngIf="DatabaseService.SystemUsersForm.controls['password'].errors.minlength">
+                              Şifreniz 4 haneli olmalıdır.
+                            </div>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="control-label col-sm-12" for="pwd">Oluşturma Tarihi</label>
+                            <div class="col-sm-5">
+                              <input type="date" min="2022-01-01" max="2031-12-31" [attr.disabled]="true"
+                                class="form-control" id="txtStock" formControlName="createDate">
+                            </div>
+                          </div>
+                          <br />
+                          <div class="form-group">
+                            <div class="container">
+                              <div class="row">
+                              </div>
+                            </div>
+                            <br />
+                          </div>
+                      </form>
+                    </div>
+                    <div class="modal-footer">
+                      <button  type="button" class="btn btn-danger"  (click)="modal.close('Close click')">Kapat</button>
+                      <button type="submit"  class="btn btn-secondary" (click)="modal.dismiss('Ekle click')" [disabled]="DatabaseService.SystemUsersForm.invalid"
+                        (click)="ActionService.PostSystemUsers()">Ekle</button>
+                    </div>
+                  </ng-template>
+                  <!-- SystemUser Güncelle -->
+                  <ng-template   #systemuserguncellemodal let-modal>
+                    <div class="modal-header" >
+                      <h5 class="modal-title"  id="modal-basic-title">Sistem Kullanıcısı Güncelle</h5>
+                      <button   type="button" class="close" (click)="modal.dismiss('Cross click')"   aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body ">
+                      <form class="form-horizontal" [formGroup]="DatabaseService.SystemUsersForm">
+                        <div class="form-group">
+
+                            <label class="control-label col-sm-12" for="pwd">Rol</label>
+                            <div class="col-sm-12">
+                              <select class="form-select" formControlName="roleId"  id="txtProductDescription" aria-label="Default select example">
+                                <option value="1">Admin</option>
+                                <option value="2">Kullanıcı</option>
+                              </select>
+                            </div>
+                            <div style="width:250px ; height: 40px; margin-left: 10px; padding-right: 50px;"
+                             *ngIf="DatabaseService.SystemUsersForm.controls['roleId'].invalid && (DatabaseService.SystemUsersForm.controls['roleId'].dirty ||
+                             DatabaseService.SystemUsersForm.controls['roleId'].touched)">
+                             <div class="p-error" style="width: 100px; height: 40px;"
+                               *ngIf="DatabaseService.SystemUsersForm.controls['roleId'].errors.required">
+                              Kullanıcı Rolu Seçiniz.
+                             </div>
+                           </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="control-label col-sm-12" for="pwd">Kullanıcı Adı</label>
+                            <div class="col-sm-12">
+                              <input type="text" class="form-control" id="txtProductCost" formControlName="userName"
+                                placeholder="Kullanıcı Adı :">
+                            </div>
+                            <div style="width:400px ; height: 40px; margin-left: 10px;" *ngIf="DatabaseService.SystemUsersForm.controls['userName'].invalid && (DatabaseService.SystemUsersForm.controls['userName'].dirty ||
+                            DatabaseService.SystemUsersForm.controls['userName'].touched)">
+                              <div class="p-error" style="width: 400px;"
+                                *ngIf="DatabaseService.SystemUsersForm.controls['userName'].errors.required">
+                                Kullanıcı Adı Giriniz.
+                              </div>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="control-label col-sm-12" for="pwd">Şifre</label>
+                            <div class="col-sm-12">
+                              <input type="text" class="form-control" id="txtStock" formControlName="password"
+                                placeholder="Şifre :" minlength="4" >
+                            </div>
+                            <div style="width:400px ; height: 40px; margin-left: 10px;" *ngIf="DatabaseService.SystemUsersForm.controls['password'].invalid && (DatabaseService.SystemUsersForm.controls['password'].dirty ||
+                            DatabaseService.SystemUsersForm.controls['password'].touched)" >
+                              <div class="p-error" style="width: 400px;"
+                                *ngIf="DatabaseService.SystemUsersForm.controls['password'].errors.required">
+                                Şifre Giriniz.
+                              </div>
+                              <div class="p-error" style="width: 400px;"
+                              *ngIf="DatabaseService.SystemUsersForm.controls['password'].errors.minlength">
+                              Şifreniz 4 haneli olmalıdır.
+                            </div>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="control-label col-sm-12" for="pwd">Oluşturma Tarihi</label>
+                            <div class="col-sm-5">
+                              <input type="date" min="2022-01-01" max="2031-12-31" [attr.disabled]="true"
+                                class="form-control" id="txtStock" formControlName="createDate">
+                            </div>
+                          </div>
+
+                          <br />
+                          <div class="form-group">
+                            <div class="container">
+                              <div class="row">
+                              </div>
+                            </div>
+                            <br />
+                          </div>
+             
+                      </form>
+                    </div>
+                    <div class="modal-footer">
+                      <button  type="button" class="btn btn-danger"  (click)="modal.close('Close click')">Kapat</button>
+                      <button type="submit"  class="btn btn-secondary" (click)="modal.dismiss('Ekle click')" [disabled]="DatabaseService.SystemUsersForm.invalid"
+                        (click)="ActionService.UpdateSystemUser(DatabaseService.SystemUsersForm.value)">Güncelle</button>
+                    </div>
+                  </ng-template>
+                  <!-- Sistem Kullanıcı Tablo -->
+                <div class="modal-content">
+                    <div class="modal-body">
+                      <div>    
+                        <div class="card">
+                          <div class="alert alert-danger"style="text-align:center" ><b >Ürün Listesi</b>
+                          </div>
+                          <p-table #dt *ngIf="DatabaseService.SystemUsersListTable" [value]="DatabaseService.SystemUsersListTable"
+                          [globalFilterFields]="['roleId','userName','password','fulfillment']"
+                            styleClass="p-datatable-gridlines" [paginator]="true" [rows]="10"
+                            [showCurrentPageReport]="true" [rowHover]="true"
+                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                            <ng-template pTemplate="caption">
+                              <div class="flex align-items-center justify-content-between">
+                                <span class="p-input-icon-left">
+                             <i class="pi pi-search"></i>
+                             <input pInputText type="text" (input)="ActionService.applyFilterGlobal($event, 'contains' ,dt)" placeholder="Ara..." />
+                            </span>
+                              </div>
+                          </ng-template>
+                            <ng-template pTemplate="header" let-columns>
+     
+                              <tr>
+                                <th pSortableColumn="roleId">Rol<p-sortIcon field="roleId"></p-sortIcon></th>
+                                <th pSortableColumn="userName">Kullanıcı Adı<p-sortIcon field="userName"></p-sortIcon></th>
+                                <th pSortableColumn="password">Şifre<p-sortIcon field="password"></p-sortIcon></th>
+                                <th pSortableColumn="createDate">Oluşturma Tarihi<p-sortIcon field="createDate"></p-sortIcon></th>
+                                <th>İşlem</th>
+                              </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-cstmr let-columns="columns"> 
+                              <tr style="text-align:center ;">
+                                <td ><span class="p-column-title">Rol</span>{{DatabaseService.map4.get(cstmr.roleId)}}</td>
+                                <td ><span class="p-column-title">Kullanıcı Adı</span>{{cstmr.userName}}</td>
+                                <td><span class="p-column-title">Şifre</span>{{cstmr.password}}</td>
+                                <td><span class="p-column-title">Oluşturma Tarihi</span>{{cstmr.createDate | date:'dd-MM-yyyy'}}</td>
+                                <td><span class="p-column-title">İşlem</span>
+                                  <button class="btn btn-primary" mat-button [matMenuTriggerFor]="menu">...</button>
+                                        <mat-menu #menu="matMenu">
+                                          <button type="button" style="width: 80%;margin-left: 10px;" class="btn btn-warning btn-floating" 
+                                          (click)="ActionService.openmd(systemuserguncellemodal)"
+                                    (click)='ActionService.SystemUsersDetailsToEdit(cstmr.id)'> Düzenle</button> <br><br>
+                                  
+                                  <button [swal]="deleteSwal"  style="width: 80%;margin-left: 10px;" class="btn btn-danger btn-floating"
+                      
+                                    (confirm)="ActionService.DeleteSystemUser(cstmr.id)">                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-trash" viewBox="0 0 16 16">
+                                    <path
+                                      d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z">
+                                    </path>
+                                    <path fill-rule="evenodd"
+                                      d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z">
+                                    </path>
+                                  </svg></button>
+                                  <swal #deleteSwal title="Emin misiniz?" text="Silmek istediğiniz veri geri alınamaz."
+                                  type="question" [showCancelButton]="true" [focusCancel]="true"
+                                  [swalOptions]="{ confirmButtonText: 'Onayla' ,  cancelButtonText:'Kapat'}">
+                                </swal>
+                                <swal #deleted title="Silindi" text="İşleminiz başarıyla gerçekleştirildi" type="success">
+                                </swal>
+                                </mat-menu>
+                                </td>
+                              </tr>
+                                 </ng-template>
+                          </p-table>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+    
+</div>
+              
+</div>
+</div>
+</section>

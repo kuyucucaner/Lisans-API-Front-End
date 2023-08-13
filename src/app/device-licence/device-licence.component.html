@@ -1,0 +1,100 @@
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+    <div class="content-wrapper" >
+      <section class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+            </div>
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+              </ol>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="content" >
+        <div class="container-fluid" >
+          <div class="row">
+            <div class="col-12">
+           
+          
+              <!--Cihaz Lisansı Listesi-->
+              <div class="modal-content">
+                <div class="modal-body">
+              <div >
+                <div class="card" >
+                  <div class="alert alert-danger" style="text-align: center;"><b>Cihaz Lisansı Listesi</b></div>
+                  <p-table #dt *ngIf="DatabaseService.DeviceLicenceListTata" [value]="DatabaseService.DeviceLicenceListTata"
+                    styleClass="p-datatable-gridlines" [paginator]="true" [rows]="10" [showCurrentPageReport]="true" [rowHover]="true" 
+                    [globalFilterFields]="['device.model','device.customerBranch.name','device.customerBranch.customer.name','licenceStatus','appType','fulfillment','fulfillment2']"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                    <ng-template pTemplate="caption">
+                      <div class="flex align-items-center justify-content-between">
+                        <span class="p-input-icon-left">
+                          <i class="pi pi-search"></i>
+                          <input pInputText type="text" (input)="ActionService.applyFilterGlobal($event, 'contains' ,dt)" placeholder="Ara..." />
+                         </span>
+                      </div>
+                  </ng-template>
+                    <ng-template pTemplate="header" let-columns>
+                      <tr> 
+                        <th pSortableColumn="device.customerBranch.customer.name">Müşteri Adı<p-sortIcon field="device.customerBranch.customer.name"></p-sortIcon></th>
+                        <th pSortableColumn="device.customerBranch.name">Şube Adı<p-sortIcon field="device.customerBranch.name"></p-sortIcon></th>
+                        <th pSortableColumn="device.model">Cihaz<p-sortIcon field="device.model"></p-sortIcon></th>
+                        <th pSortableColumn="licenceStatus">Lisans Durumu<p-sortIcon field="licenceStatus"></p-sortIcon></th>
+                        <th pSortableColumn="appType">Uygulama Türü<p-sortIcon field="appType"></p-sortIcon></th>
+                        <th pSortableColumn="createDate">Oluşturma Tarihi<p-sortIcon field="createDate"></p-sortIcon></th>
+                        <th pSortableColumn="confirmedDate">Onaylanma Tarihi<p-sortIcon field="confirmedDate"></p-sortIcon></th>
+                        <th pSortableColumn="modifiedDate">Değiştirilme Tarihi<p-sortIcon field="modifiedDate"></p-sortIcon></th>
+                        <!-- <th scope="col">Değiştirilmiş Kullanıcı ID</th>
+                        <th scope="col">Onaylanmış Kullanıcı ID</th>
+                        <th scope="col">Talep Eden Kullanıcı ID</th> -->
+                        <th pSortableColumn="expireDate">Son Kullanma Tarihi<p-sortIcon field="expireDate"></p-sortIcon></th>
+                        <th >İşlem</th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-cstmr let-columns="columns">
+                      <tr style="text-align:center ;">
+                        <td><span class="p-column-title">Müşteri</span>{{cstmr.device.customerBranch.customer.name}}</td>
+                        <td><span class="p-column-title">Müşteri Şubesi</span>{{cstmr.device.customerBranch.name}}</td>
+                        <td><span class="p-column-title">Cihaz</span>{{cstmr.device.model}}</td>
+                        <td ><span class="p-column-title">Lisans Durumu</span>{{DatabaseService.map2.get(cstmr.licenceStatus)}}</td>
+                        <td><span class="p-column-title">Uygulama Türü</span>{{DatabaseService.map3.get(cstmr.appType)}}</td>
+                        <td><span class="p-column-title">Oluşturma Tarihi</span>{{cstmr.createDate| date:'dd-MM-yyyy'}}</td>
+                        <td><span class="p-column-title">Onaylanma Tarihi</span>{{cstmr.confirmedDate| date:'dd-MM-yyyy'}}</td>
+                        <td><span class="p-column-title">Değiştirilme Tarihi</span>{{cstmr.modifiedDate| date:'dd-MM-yyyy'}}</td>
+                        <!-- <td><span class="p-column-title">Değiştirilmiş Kullanıcı ID</span>{{cstmr.modifiedUserId}}</td>
+                        <td><span class="p-column-title">Onaylanmış Kullanıcı ID</span>{{cstmr.confirmedUserId}}</td>
+                        <td><span class="p-column-title">Talep Eden Kullanıcı ID</span>{{cstmr.demanderUserId}}</td> -->
+                        <td><span class="p-column-title">Son Kullanma Tarihi</span>{{cstmr.expireDate| date:'dd-MM-yyyy'}}</td>
+                        <td><span class="p-column-title">İşlem</span>
+                           <button [swal]="deleteSwal" style="margin-left: auto;" class="btn btn-danger btn-floating"
+                          (confirm)="ActionService.DeleteDeviceLicence(cstmr.id)"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                            height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                            <path
+                              d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z">
+                            </path>
+                            <path fill-rule="evenodd"
+                              d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z">
+                            </path>
+                          </svg></button>
+                          <swal #deleteSwal title="Emin misiniz?" text="Silmek istediğiniz veri geri alınamaz."
+                          type="question" [showCancelButton]="true" [focusCancel]="true"
+                          [swalOptions]="{ confirmButtonText: 'Onayla' ,  cancelButtonText:'Kapat' }">
+                        </swal>
+                        <swal #deleted title="Silindi" text="İşleminiz başarıyla gerçekleştirildi" type="success">
+                        </swal>
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+              </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>

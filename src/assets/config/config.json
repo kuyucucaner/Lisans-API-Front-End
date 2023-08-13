@@ -1,0 +1,8 @@
+{
+    "apiServer": {
+      "url": "https://localhost:7164",
+      "version": "v1"
+    },
+    "resolveJsonModule": true,
+     "esModuleInterop": true
+}

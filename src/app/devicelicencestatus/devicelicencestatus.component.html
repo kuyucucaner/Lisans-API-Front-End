@@ -1,0 +1,145 @@
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+              <div class="content-wrapper" style="background-color: white;">
+                <section class="content-header">
+                    <div class="container-fluid">
+                      <div class="row mb-2">
+                        <div class="col-sm-6">
+                        </div>
+                        <div class="col-sm-6">
+                          <ol class="breadcrumb float-sm-right">
+                          </ol>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+                <section class="content">
+                    <div class="container-fluid">
+                      <div class="row">
+                        <div class="col-12">
+                              <!--CİHAZ TABLOSU-->
+        <ng-template   #cihazgoruntulemodal let-modal>
+             <div class="modal-content">
+               <div class="modal-body">
+                 <div>    
+                   <div class="card">
+                     <div class="alert alert-danger"style="text-align:center" ><b >Cihaz Listesi</b>
+                      <button  type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                     </div>
+                     <p-table #dt *ngIf="DatabaseService.DeviceListTable" [value]="DatabaseService.DeviceListTable"
+                       styleClass="p-datatable-gridlines" [paginator]="true" [rows]="10"
+                       [showCurrentPageReport]="true" [rowHover]="true"
+                       currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                       <ng-template pTemplate="header" let-columns>
+
+                         <tr>
+                           <th scope="col">Model</th>
+                           <th scope="col">Platform</th>
+                           <th scope="col">UUID</th>
+                           <th scope="col">Versiyon</th>
+                           <th scope="col">Üretici Firma</th>
+                           <th scope="col">Oluşturma Tarihi</th>
+ 
+                         </tr>
+                       </ng-template>
+                       <ng-template pTemplate="body" let-cstmr let-columns="columns">
+
+                         <tr style="text-align:center;">
+
+                           <td> <span class="p-column-title">Model</span>{{cstmr.model}}</td>
+                           <td> <span class="p-column-title">Platform</span>{{cstmr.platform}}</td>
+                           <td> <span class="p-column-title">UUID</span>{{cstmr.uuid}}</td>
+                           <td> <span class="p-column-title">Versiyon</span>{{cstmr.version}}</td>
+                           <td> <span class="p-column-title">Üretici Firma</span>{{cstmr.manufacturer}}</td>
+                           <td> <span class="p-column-title">Oluşturma Tarihi</span>{{cstmr.createDate| date:'dd-MM-yyyy'}}</td>
+                          
+                            </tr>
+                            </ng-template>
+
+
+                     </p-table>
+                   </div>
+                 </div>
+               </div>
+               <div class="modal-footer">
+                 <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')" >Kapat</button>
+               </div>
+             </div>
+               </ng-template>
+               <div class="modal-content">
+                <div class="modal-body">
+              <div>
+                <div class="card" style="background-color: white;">
+                  <div class="alert alert-danger" style="text-align: center;"><b>Onay Bekleyen Cihaz Lisans Listesi</b></div>
+                  <p-table #dt *ngIf="DatabaseService.DeviceLicenceActiveList" [value]="DatabaseService.DeviceLicenceActiveList"
+                    styleClass="p-datatable-gridlines" [paginator]="true" [rows]="10" [showCurrentPageReport]="true" [rowHover]="true"
+                    [globalFilterFields]="['device.customerBranch.name','device.customerBranch.customer.name','licenceStatus','appType','fulfillment','fulfillment2']"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                    <ng-template pTemplate="caption">
+                      <div class="flex align-items-center justify-content-between">
+                        <span class="p-input-icon-left">
+                          <i class="pi pi-search"></i>
+                          <input pInputText type="text" (input)="ActionService.applyFilterGlobal($event, 'contains' ,dt)" placeholder="Ara..." />
+                         </span>
+                      </div>
+                  </ng-template>
+                    <ng-template pTemplate="header" let-columns>
+                      <tr> 
+                        <th scope="col">Müşteri Adı / Şube Adı</th>
+                        <th scope="col">Cihaz Bilgi</th>
+                        <th  scope="col">Lisans Durumu</th>
+                        <th scope="col">Uygulama Türü</th>
+                        <th scope="col">Oluşturma Tarihi</th>
+                        <!-- <th scope="col">Onaylanma Tarihi</th>
+                        <th scope="col">Değiştirilme Tarihi</th>
+                        <th scope="col">Değiştirilmiş Kullanıcı ID</th>
+                        <th scope="col">Onaylanmış Kullanıcı ID</th>
+                        <th scope="col">Talep Eden Kullanıcı ID</th> -->
+                        <th scope="col">Son Kullanma Tarihi</th>
+                        <th scope="col">Onay</th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-cstmr let-columns="columns">
+                      <tr style="text-align:center ;">
+                        <td style="background-color:#c42929;color : white;"> <span class="p-column-title">Müşteri Adı / Şube Adı</span>{{cstmr.device.customerBranch.customer.name}}/{{cstmr.device.customerBranch.name}} </td>
+                        <td style="background-color:#c42929;color : white;"> <span class="p-column-title">Cihaz Bilgi</span>
+                            <button type="button" class="btn btn-dark" (click)="ActionService.getDeviceList3(cstmr.deviceId)" data-toggle="modal" 
+                          (click)="ActionService.open(cihazgoruntulemodal)">
+                          Cihazı Görüntüle
+                        </button> 
+                        </td>
+                        <td style="background-color:#c42929;color : white;"><span class="p-column-title">Lisans Durumu</span>{{DatabaseService.map2.get(cstmr.licenceStatus)}}</td>
+                        <td style="background-color:#c42929;color : white;"><span class="p-column-title">Uygulama Türü</span>{{DatabaseService.map3.get(cstmr.appType)}}</td>
+                        <td style="background-color:#c42929;color : white;"><span class="p-column-title">Oluşturma Tarihi</span>{{cstmr.createDate| date:'dd-MM-yyyy'}}</td>
+                        <!-- <td style="background-color:#c42929;color : white;"><span class="p-column-title">Onaylanma Tarihi</span>{{cstmr.confirmedDate| date:'dd-MM-yyyy'}}</td>
+                        <td style="background-color:#c42929;color : white;"><span class="p-column-title">Değiştirilme Tarihi</span>{{cstmr.modifiedDate| date:'dd-MM-yyyy'}}</td>
+                        <td style="background-color:#c42929;color : white;"><span class="p-column-title">Değiştirilmiş Kullanıcı ID</span>{{cstmr.modifiedUserId}}</td>
+                        <td style="background-color:#c42929;color : white;"><span class="p-column-title">Onaylanmış Kullanıcı ID</span>{{cstmr.confirmedUserId}}</td>
+                        <td style="background-color:#c42929;color : white;"><span class="p-column-title">Talep Eden Kullanıcı ID</span>{{cstmr.demanderUserId}}</td> -->
+                        <td style="background-color:#c42929;color : white;"><span class="p-column-title">Son Kullanma Tarihi</span>{{cstmr.expireDate| date:'dd-MM-yyyy'}}</td>
+                        <td style="background-color:#c42929;color : white;" >  <span class="p-column-title">İşlem</span>
+                             <mat-slide-toggle style="margin-left: auto;"[swal]="deleteSwal" (confirm)="ActionService.ActiveDeviceLicence(cstmr.id)" color="warn"></mat-slide-toggle>
+                          <swal #deleteSwal title="Emin misiniz?" text="Onaylamak istediğinize emin misiniz?"
+                          type="question" [showCancelButton]="true" [focusCancel]="true"
+                          [swalOptions]="{ confirmButtonText: 'Onayla' ,  cancelButtonText:'Kapat' }">
+                          </swal>
+                          <swal #deleted title="Onaylandı" text="İşleminiz başarıyla gerçekleştirildi" type="success">
+                          </swal></td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+
+                </div>
+              </div>
+                </div>
+               </div>
+              
+            </div>
+        </div>
+      </div>
+    </section>
+               
+</div>
+

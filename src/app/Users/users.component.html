@@ -1,0 +1,500 @@
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+
+    <div class="content-wrapper bg-gradient-light text-dark" >
+
+      <section class="content-header ">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+            </div>
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+              </ol>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12 ">
+              <!--KULLANICI EKLE BUTONU-->
+              <div class="alert alert-dark">
+                <button type="button"  class="btn btn-success" (click)="ActionService.resetFormDataUser()" (click)="ActionService.openmd(usereklemodal)">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="20" fill="currentColor"
+                    class="bi bi-person-plus-fill" viewBox="0 0 16 16">
+                    <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+                    <path fill-rule="evenodd"
+                      d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z">
+                    </path>
+                  </svg>
+                  Kullanıcı Ekle
+                </button>
+              </div>
+              
+              <!-- Kullanıcı Ekle Modal -->
+                    <ng-template   #usereklemodal let-modal>
+
+                    <div class="modal-header" >
+                      <h5 class="modal-title"  id="modal-basic-title">Kullanıcı Ekle</h5>
+                      <button  #btnClosePostUser type="button" class="close" (click)="modal.dismiss('Cross click')"   aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body ">
+                      <form class="form-horizontal" [formGroup]="DatabaseService.usersForm">
+         
+                          <div class="form-group">
+                            <label class="control-label col-sm-12" for="pwd">Ad</label>
+                            <div class="col-sm-12">
+                              <input type="text" class="form-control bg-white" id="txtProductName" formControlName="name"
+                                placeholder="Ad :" required>
+                            </div>
+                            <div style="width:250px ; height: 40px; margin-left: 10px; padding-right: 50px;" *ngIf="DatabaseService.usersForm.controls['name'].invalid && (DatabaseService.usersForm.controls['name'].dirty ||
+                            DatabaseService.usersForm.controls['name'].touched)">
+                              <div class="p-error" style="width: 100px; height: 40px;"
+                                *ngIf="DatabaseService.usersForm.controls['name'].errors.required">
+                                Ad Giriniz.
+                              </div>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="control-label col-sm-12" for="pwd">Soyad</label>
+                            <div class="col-sm-12">
+                              <input type="text" class="form-control" id="txtProductDescription"
+                                formControlName="lastName" placeholder="Soyad :">
+                            </div>
+                            <div style="width:250px ; height: 40px; margin-left: 10px; padding-right: 50px;" *ngIf="DatabaseService.usersForm.controls['lastName'].invalid && (DatabaseService.usersForm.controls['lastName'].dirty ||
+                            DatabaseService.usersForm.controls['lastName'].touched)">
+                              <div class="p-error" style="width: 100px; height: 40px;"
+                                *ngIf="DatabaseService.usersForm.controls['lastName'].errors.required">
+                                Soyad Giriniz.
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label class="control-label col-sm-12" for="pwd">Kullanıcı Adı</label>
+                            <div class="col-sm-12">
+                              <input type="text" class="form-control" id="txtProductCost" formControlName="userName"
+                                placeholder="Kullanıcı Adı :">
+                            </div>
+                            <div style="width:400px ; height: 40px; margin-left: 10px;" *ngIf="DatabaseService.usersForm.controls['userName'].invalid && (DatabaseService.usersForm.controls['userName'].dirty ||
+                            DatabaseService.usersForm.controls['userName'].touched)">
+                              <div class="p-error" style="width: 400px;"
+                                *ngIf="DatabaseService.usersForm.controls['userName'].errors.required">
+                                Kullanıcı Adı Giriniz.
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label class="control-label col-sm-12" for="pwd">Email</label>
+                            <div class="col-sm-12">
+                              <input type="text" value="empty" class="form-control" id="txtStock" formControlName="email"
+                                placeholder="Email :">
+                            </div>
+                            <!-- <div style="width:400px ; height: 40px; margin-left: 10px;" *ngIf="DatabaseService.usersForm.controls['email'].invalid && (DatabaseService.usersForm.controls['email'].dirty ||
+                            DatabaseService.usersForm.controls['email'].touched)">
+                              <div class="p-error" style="width: 400px;"
+                                *ngIf="DatabaseService.usersForm.controls['email'].errors.required">
+                                Email Giriniz.  
+                              </div>
+                              <div class="p-error" style="width: 400px;"
+                              *ngIf="DatabaseService.usersForm.controls['email'].errors.pattern">
+                               örnek@örnek.com
+                            </div>
+                            </div> -->
+                          </div>
+                          <div class="form-group">
+                            <label class="control-label col-sm-12" for="pwd">Şifre</label>
+                            <div class="col-sm-12">
+                              <input type="text" class="form-control" id="txtStock" formControlName="password"
+                                placeholder="Şifre :" minlength="4" >
+                            </div>
+                            <div style="width:400px ; height: 40px; margin-left: 10px;" *ngIf="DatabaseService.usersForm.controls['password'].invalid && (DatabaseService.usersForm.controls['password'].dirty ||
+                            DatabaseService.usersForm.controls['password'].touched)" >
+                              <div class="p-error" style="width: 400px;"
+                                *ngIf="DatabaseService.usersForm.controls['password'].errors.required">
+                                Şifre Giriniz.
+                              </div>
+                              <div class="p-error" style="width: 400px;"
+                              *ngIf="DatabaseService.usersForm.controls['password'].errors.minlength">
+                              Şifreniz 4 haneli olmalıdır.
+                            </div>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <div class="row">
+                            <label class="control-label col-sm-6" for="pwd">Oluşturma Tarihi </label>
+                            <label class="control-label col-sm-6" for="pwd">Son Kullanma Tarihi </label>
+                            <div class="col-sm-6">
+                              <input type="date" value="2022-08-03" min="2022-01-01" max="2031-12-31" [attr.disabled]="true"
+                                class="form-control bg-white" formControlName="createDate">
+                            </div>
+                            <div style="width:400px ; height: 40px; margin-left: 10px;" *ngIf="DatabaseService.usersForm.controls['createDate'].invalid && (DatabaseService.usersForm.controls['createDate'].dirty ||
+                            DatabaseService.usersForm.controls['createDate'].touched)">
+                              <div class="p-error" style="width: 400px;"
+                                *ngIf="DatabaseService.usersForm.controls['createDate'].errors.required">
+                                Bir tarih seçiniz.
+                              </div>
+                            </div>
+                            <div class="col-sm-6">
+                              <input type="date" value="2022-01-01" min="2022-01-01" max="2031-12-31"
+                                class="form-control" id="txtStock" formControlName="expireDate"
+                                placeholder="Son Kullanma Tarihi :">
+                            </div>
+                            <div style="width:400px ; height: 40px; margin-left: 10px;" *ngIf="DatabaseService.usersForm.controls['expireDate'].invalid && (DatabaseService.usersForm.controls['expireDate'].dirty ||
+                            DatabaseService.usersForm.controls['expireDate'].touched)">
+                              <div class="p-error" style="width: 400px;"
+                                *ngIf="DatabaseService.usersForm.controls['expireDate'].errors.required">
+                                Bir tarih seçiniz.
+                              </div>
+                            </div>
+                          </div>
+                          </div>  
+
+                          <div class="form-group">
+                            <div class="row">
+                            <label class="control-label col-sm-6" for="pwd">Şube Kapanma Saati</label>
+                            <label class="control-label col-sm-6" for="pwd">Port</label>
+                            <div class="col-sm-6">
+                              <input type="time" step="1" value="23:59"   formControlName="branchCloseTime" name="pwd" id="pwd" class="form-control">
+                            </div>
+                            <div style="width:400px ; height: 40px; margin-left: 10px;" *ngIf="DatabaseService.usersForm.controls['branchCloseTime'].invalid && (DatabaseService.usersForm.controls['branchCloseTime'].dirty ||
+                            DatabaseService.usersForm.controls['branchCloseTime'].touched)">
+                              <div class="p-error" style="width: 400px;"
+                                *ngIf="DatabaseService.usersForm.controls['branchCloseTime'].errors.required">
+                                Bir saat seçiniz.
+                              </div>
+                            </div>
+                            <div class="col-sm-6">
+                              <input type="text" class="form-control bg-white" id="txtProductName" formControlName="port"
+                                >
+                            </div>
+                            <div style="width:250px ; height: 40px; margin-left: 10px; padding-right: 50px;" *ngIf="DatabaseService.usersForm.controls['port'].invalid && (DatabaseService.usersForm.controls['port'].dirty ||
+                            DatabaseService.usersForm.controls['port'].touched)">
+                              <div class="p-error" style="width: 100px; height: 40px;"
+                                *ngIf="DatabaseService.usersForm.controls['port'].errors.required">
+                                Port Giriniz.
+                              </div>
+                            </div>
+                          </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="control-label col-sm-12" for="pwd">Api Adres Türü</label>
+                            <div class="col-sm-12">
+                              <select class="form-select"  formControlName="addressType" id="txtProductDescription" aria-label="Default select example">
+                                <option value="21">21 (NarPOS Patron Uygulaması)</option>
+                                <option value="22">22 (NarPOS Terminal Uygulaması)</option>
+                                <option value="23">23 (NarPOS Caller Id)</option>
+                              </select>
+                              <div style="width:400px ; height: 40px; margin-left: 10px;" *ngIf="DatabaseService.usersForm.controls['addressType'].invalid && (DatabaseService.usersForm.controls['addressType'].dirty ||
+                            DatabaseService.usersForm.controls['addressType'].touched)">
+                              <div class="p-error" style="width: 400px;"
+                                *ngIf="DatabaseService.usersForm.controls['addressType'].errors.required">
+                                Api Adres Türü Seçiniz.
+                              </div>
+                            </div>
+                        
+                            </div> 
+                          </div>
+                          <div class="form-group">
+                            <label class="control-label col-sm-12" for="pwd">Api Adres</label>
+                            <div class="col-sm-12">
+                              <input type="text" class="form-control" id="txtProductDescription"
+                                formControlName="apiaddress" placeholder="Adres :">
+                            </div>
+                            <div style="width:400px ; height: 40px; margin-left: 10px;" *ngIf="DatabaseService.usersForm.controls['apiaddress'].invalid && (DatabaseService.usersForm.controls['apiaddress'].dirty ||
+                            DatabaseService.usersForm.controls['apiaddress'].touched)">
+                              <div class="p-error" style="width: 400px;"
+                                *ngIf="DatabaseService.usersForm.controls['apiaddress'].errors.required">
+                                Api Adres Giriniz.
+                              </div>
+                            </div>
+                        
+                          </div>
+                 
+                          <br />
+                          <div class="form-group">
+                            <div class="container">
+                              <div class="row">
+                              </div>
+                            </div>
+                            <br />
+                          </div>
+             
+                      </form>
+                    </div>
+                    <div class="modal-footer">
+                      <button  type="button" class="btn btn-danger"  (click)="modal.close('Close click')">Kapat</button>
+                      <button type="submit"  class="btn btn-secondary" (click)="modal.dismiss('Ekle click')" [disabled]="DatabaseService.usersForm.invalid"
+                        (click)="ActionService.PostUsers()">Ekle</button>
+                    </div>
+                 
+ 
+                  
+    
+                  </ng-template>
+             <!-- Kullanıcı Güncelle Modal -->
+                    <ng-template   #userguncellemodal let-modal>
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Kullanıcı Güncelle</h5>
+                      <button #btnClose type="button" class="close" (click)="modal.dismiss('Cross click')"  aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <form class="form-horizontal" [formGroup]="DatabaseService.usersForm">
+                        <div>
+                          <div class="form-group">
+
+                            <label class="control-label col-sm-12" for="pwd">Ad</label>
+                            <div class="col-sm-12">
+                              <input type="text" class="form-control" id="txtProductName" formControlName="name"
+                                placeholder="Ad :" required autofocus>
+                            </div>
+                            <div style="width:250px ; height: 40px; margin-left: 10px; padding-right: 50px;" *ngIf="DatabaseService.usersForm.controls['name'].invalid && (DatabaseService.usersForm.controls['name'].dirty ||
+                            DatabaseService.usersForm.controls['name'].touched)">
+                              <div class="p-error" style="width: 100px; height: 40px;"
+                                *ngIf="DatabaseService.usersForm.controls['name'].errors.required">
+                                Ad Giriniz.
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label class="control-label col-sm-12" for="pwd">Soyad</label>
+                            <div class="col-sm-12">
+                              <input type="text" class="form-control" id="txtProductDescription"
+                                formControlName="lastName" placeholder="Soyad :">
+                            </div>
+                            <div style="width:250px ; height: 40px; margin-left: 10px; padding-right: 50px;" *ngIf="DatabaseService.usersForm.controls['lastName'].invalid && (DatabaseService.usersForm.controls['lastName'].dirty ||
+                            DatabaseService.usersForm.controls['lastName'].touched)">
+                              <div class="p-error" style="width: 100px; height: 40px;"
+                                *ngIf="DatabaseService.usersForm.controls['lastName'].errors.required">
+                                Soyad Giriniz.
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label class="control-label col-sm-12" for="pwd">Kullanıcı Adı</label>
+                            <div class="col-sm-12">
+                              <input type="text" class="form-control" id="txtProductCost" formControlName="userName"
+                                placeholder="Kullanıcı Adı :">
+                            </div>
+                            <div style="width:400px ; height: 40px; margin-left: 10px;" *ngIf="DatabaseService.usersForm.controls['userName'].invalid && (DatabaseService.usersForm.controls['userName'].dirty ||
+                            DatabaseService.usersForm.controls['userName'].touched)">
+                              <div class="p-error" style="width: 400px;"
+                                *ngIf="DatabaseService.usersForm.controls['userName'].errors.required">
+                                Kullanıcı Adı Giriniz.
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label class="control-label col-sm-12" for="pwd">Email</label>
+                            <div class="col-sm-12">
+                              <input type="text" class="form-control" id="txtStock" formControlName="email"
+                                placeholder="Email :">
+                            </div>
+                            <!-- <div style="width:400px ; height: 40px; margin-left: 10px;" *ngIf="DatabaseService.usersForm.controls['email'].invalid && (DatabaseService.usersForm.controls['email'].dirty ||
+                            DatabaseService.usersForm.controls['email'].touched)">
+                              <div class="p-error" style="width: 400px;"
+                                *ngIf="DatabaseService.usersForm.controls['email'].errors.required">
+                                Email Giriniz.
+                              </div>
+                              <div class="p-error" style="width: 400px;"
+                              *ngIf="DatabaseService.usersForm.controls['email'].errors.pattern">
+                               örnek@örnek.com
+                            </div>
+                            </div> -->
+                          </div>
+                          <div class="form-group">
+                            <label class="control-label col-sm-12" for="pwd">Şifre</label>
+                            <div class="col-sm-12">
+                              <input type="text" class="form-control" id="txtStock" formControlName="password"
+                                placeholder="Şifre :"  minlength="4">
+                            </div>
+                            <div style="width:400px ; height: 40px; margin-left: 10px;" *ngIf="DatabaseService.usersForm.controls['password'].invalid && (DatabaseService.usersForm.controls['password'].dirty ||
+                            DatabaseService.usersForm.controls['password'].touched)">
+                              <div class="p-error" style="width: 400px;"
+                                *ngIf="DatabaseService.usersForm.controls['password'].errors.required">
+                                Şifre Giriniz.
+                              </div>
+                              <div class="p-error" style="width: 400px;"
+                              *ngIf="DatabaseService.usersForm.controls['password'].errors.minlength">
+                              Şifreniz 4 haneli olmalıdır.
+                            </div>
+                            </div>
+                          </div>
+                          <!-- <div style="margin-right: 10%;" class="form-group">
+                            <label class="control-label col-sm-12" for="pwd">Genel Yönetici mi?</label>
+                            <div class="form-check">
+                              <input style="margin-left:35px ;" type="radio" [value]="true" class="form-check-input" [attr.disabled]="true"
+                                id="flexCheckDefault" formControlName="isGeneralAdmin">
+                              <label class="form-check-label" for="flexCheckDefault">Evet</label>
+                              <input style="margin-left:85px ;" class="form-check-input" type="radio" [value]="false"
+                                id="flexCheckDefault2" formControlName="isGeneralAdmin" />
+                              <label style="margin-left:42px ;" class="form-check-label"
+                                for="flexCheckDefault2">Hayır</label>
+                            </div>
+                            <div style="width:400px ; height: 40px; margin-left: 10px;" *ngIf="DatabaseService.usersForm.controls['isGeneralAdmin'].invalid && (DatabaseService.usersForm.controls['isGeneralAdmin'].dirty ||
+                            DatabaseService.usersForm.controls['isGeneralAdmin'].touched)">
+                              <div class="p-error" style="width: 400px;"
+                                *ngIf="DatabaseService.usersForm.controls['isGeneralAdmin'].errors.required">
+                                Bir durum seçiniz.
+                              </div>
+                            </div>
+                          </div> -->
+                          <!-- <div class="form-group">
+                            <label class="control-label col-sm-12" for="pwd">Müşteri Yöneticisi mi ?</label>
+                            <div class="form-check">
+                              <input style="margin-left:35px ;" type="radio" [value]="true" class="form-check-input" [attr.disabled]="true"
+                                id="flexCheckDefault" formControlName="isCustomerAdmin">
+                              <label class="form-check-label" for="flexCheckDefault">Evet</label>
+                              <input style="margin-left:85px ;" class="form-check-input" type="radio" [value]="false"
+                                id="flexCheckDefault2" formControlName="isCustomerAdmin" />
+                              <label style="margin-left:42px ;" class="form-check-label"
+                                for="flexCheckDefault2">Hayır</label>
+                            </div>
+                            <div style="width:400px ; height: 40px; margin-left: 10px;" *ngIf="DatabaseService.usersForm.controls['isCustomerAdmin'].invalid && (DatabaseService.usersForm.controls['isCustomerAdmin'].dirty ||
+                            DatabaseService.usersForm.controls['isCustomerAdmin'].touched)">
+                              <div class="p-error" style="width: 400px;"
+                                *ngIf="DatabaseService.usersForm.controls['isCustomerAdmin'].errors.required">
+                                Bir durum seçiniz.
+                              </div>
+                            </div>
+                          </div> -->
+                          <div class="form-group">
+                            <div class="row">
+                            <label class="control-label col-sm-6" for="pwd">Oluşturma Tarihi</label>
+                            <label class="control-label col-sm-6" for="pwd">Son Kullanma Tarihi</label>
+                            <div class="col-sm-6">
+                              <input type="date"  min="2022-01-01" max="2031-12-31" [attr.disabled]="true"
+                                class="form-control" id="txtStock" formControlName="createDate"
+                              >
+                            </div>
+                            <div style="width:400px ; height: 40px; margin-left: 10px;" *ngIf="DatabaseService.usersForm.controls['createDate'].invalid && (DatabaseService.usersForm.controls['createDate'].dirty ||
+                            DatabaseService.usersForm.controls['createDate'].touched)">
+                              <div class="p-error" style="width: 400px;"
+                                *ngIf="DatabaseService.usersForm.controls['createDate'].errors.required">
+                                Bir tarih seçiniz.
+                              </div>
+                            </div>
+                            <div class="col-sm-6">
+                              <input type="date" min="2022-01-01" max="2031-12-31" [attr.disabled]="true"
+                                class="form-control" id="txtStock" formControlName="expireDate"
+                                >
+                            </div>
+                            <div style="width:400px ; height: 40px; margin-left: 10px;" *ngIf="DatabaseService.usersForm.controls['expireDate'].invalid && (DatabaseService.usersForm.controls['expireDate'].dirty ||
+                            DatabaseService.usersForm.controls['expireDate'].touched)">
+                              <div class="p-error" style="width: 400px;"
+                                *ngIf="DatabaseService.usersForm.controls['expireDate'].errors.required">
+                                Bir tarih seçiniz.
+                              </div>
+                            </div>
+                          </div>
+                          </div>
+                          <br />
+                          <div class="form-group">
+                            <div class="container">
+                              <div class="row">
+                              </div>
+                            </div>
+                            <br />
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-danger"  (click)="modal.close('Close click')">Kapat</button>
+                      <button type="submit" class="btn btn-secondary" (click)="modal.dismiss('Guncelle click')"   [disabled]="DatabaseService.usersForm.invalid"
+                        (click)="ActionService.UpdateUser(DatabaseService.usersForm.value)">Güncelle</button>
+                    </div>
+                    </ng-template>
+
+              <!--Kullanıcı Listesi-->
+              <div class="modal-content">
+                <div class="modal-body">
+              <div>
+                <div class="card" style="background-color: white;">
+                  <div class="alert alert-danger" style="text-align: center;"><b>Kullanıcı Listesi</b>
+                  </div>
+                  <p-table #dt *ngIf="DatabaseService.UsersListTable" [value]="DatabaseService.UsersListTable" styleClass="p-datatable-gridlines"
+                    [paginator]="true" [rows]="10" [showCurrentPageReport]="true" [rowHover]="true" [globalFilterFields]="['name','lastName','userName','email','password']"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                    <ng-template pTemplate="caption">
+                      <div class="flex align-items-center justify-content-between">
+                        <span class="p-input-icon-left">
+                     <i class="pi pi-search"></i>
+                     <input pInputText type="text" (input)="ActionService.applyFilterGlobal($event, 'contains' ,dt)" placeholder="Ara..." />
+                    </span>
+                      </div>
+                  </ng-template>
+                    <ng-template pTemplate="header" let-columns>
+                      <tr>
+                        <th pSortableColumn="name">Ad<p-sortIcon field="name"></p-sortIcon></th>
+                        <th pSortableColumn="lastName">Soyad<p-sortIcon field="lastName"></p-sortIcon></th>
+                        <th pSortableColumn="userName">Kullanıcı Adı<p-sortIcon field="userName"></p-sortIcon></th>
+                        <th pSortableColumn="email">Email<p-sortIcon field="email"></p-sortIcon></th>
+                        <th pSortableColumn="password">Şifre<p-sortIcon field="password"></p-sortIcon></th>
+                        <th pSortableColumn="createDate">Oluşturma Tarihi<p-sortIcon field="createDate"></p-sortIcon></th>
+                        <th  pSortableColumn="expireDate" >Son Kullanma Tarihi<p-sortIcon field="expireDate"></p-sortIcon></th>
+                        <th scope="col">İşlem</th>  
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-usr let-columns="columns">
+                      <tr style="text-align:center ;">
+                        <td ><span class="p-column-title">Ad</span>{{usr.name}}</td>
+                        <td ><span class="p-column-title">Soyad</span>{{usr.lastName}}</td>
+                        <td><span class="p-column-title">Kullanıcı Adı</span>{{usr.userName}}</td>
+                        <td ><span class="p-column-title">Email</span>{{usr.email}}</td>
+                        <td ><span class="p-column-title">Şifre</span>{{usr.password}}</td>
+                        <td ><span class="p-column-title">Oluşturma Tarihi</span>{{usr.createDate | date:'dd-MM-yyyy'}}</td>
+                        <td ><span class="p-column-title">Son Kullanma Tarihi</span>{{usr.expireDate | date:'dd-MM-yyyy'}}</td>
+                        <td   ><span class="p-column-title">İşlem</span>
+                          <button class="btn btn-primary" mat-button [matMenuTriggerFor]="menu">...</button>
+                          <mat-menu  #menu="matMenu">
+                          <button  type="button" style="width: 80%;margin-left: 10px;"  (click)="ActionService.openmd(userguncellemodal)" class="btn btn-warning btn-floating" data-toggle="modal"
+                            data-target="#güncelleModal" (click)='ActionService.UsersDetailsToEdit(usr.id)'>
+                            Düzenle</button>   <br><br>
+                          <button [swal]="deleteSwal"  style="width: 80%;margin-left: 10px;"class="btn btn-danger btn-floating"
+                            (confirm)="ActionService.DeleteUser(usr.id)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                              class="bi bi-trash" viewBox="0 0 16 16">
+                              <path
+                                d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z">
+                              </path>
+                              <path fill-rule="evenodd"
+                                d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z">
+                              </path>
+                            </svg></button>
+                          <swal #deleteSwal  title="Emin misiniz?" text="Silmek istediğiniz veri geri alınamaz."
+                            type="question" [showCancelButton]="true" [focusCancel]="true"
+                            [swalOptions]="{ confirmButtonText: 'Onayla' ,  cancelButtonText:'Kapat' }">
+                          </swal>
+                          <swal #deleted title="Silindi" text="İşleminiz başarıyla gerçekleştirildi" type="success">
+                          </swal>
+                        </mat-menu>
+                        </td>
+                      </tr>
+                    </ng-template>
+
+
+                  </p-table>
+                </div>
+              </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    
+
